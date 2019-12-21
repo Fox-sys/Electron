@@ -247,7 +247,7 @@ class Support(View):
             if bound_form.is_valid():
                 p = user.objects.get(Nickname_us__iexact=h)
                 k = bound_form.save(p.email_us)
-                send_mail(subject = k[1], message = p.Nickname_us + "\n" + p.email_us + "\n" + k[2] , from_email = k[0], recipient_list = ['eazywebdev1360@gmail.com'], fail_silently=False)
+                send_mail(subject = k[1], message = p.Nickname_us + "\n" + p.email_us + "\n" + k[2] , from_email = k[0], recipient_list = ['berestovborisasz@gmail.com'], fail_silently=False)
         return redirect("../")
 
 
