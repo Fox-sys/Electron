@@ -73,7 +73,7 @@ class Forum(View):
             return render(request, 'First/Forum.html', context={'Art_list': reversed(All_Articles), 'Nick': h, "ROOT": g, 'form': bound_form, "news": news()})
 
 class CreateArticle(View):
-    def get(self, request):
+    def get(self, request, type):
         h = CheckCOOKIE(request)
         if 'ROOT' in request.COOKIES:
             g = request.COOKIES['ROOT']
@@ -81,11 +81,11 @@ class CreateArticle(View):
             g = 'False'
         if h != "":
             form = ArticleForm()
-            return render(request, 'First/create_article.html', context = {'Form': form,'Nick': h, "ROOT": g, "news": news()})
+            return render(request, 'First/create_article.html', context = {'Form': form,'Nick': h, "ROOT": g, "news": news(), 'type': type})
         else:
             return redirect("../")
 
-    def post(self, request):
+    def post(self, request, type):
         h = CheckCOOKIE(request)
         if 'ROOT' in request.COOKIES:
             g = request.COOKIES['ROOT']
@@ -258,7 +258,7 @@ def subforum(request, args):
     else:
         g = 'False'
     arts = Article.objects.filter(sellf__iexact = args)
-    return render(request, "First/fubforum.html", context={"Nick": h, "ROOT": g, "ar": reversed(arts), "news": news()})
+    return render(request, "First/fubforum.html", context={"Nick": h, "ROOT": g, "ar": reversed(arts), "news": news(), "arg": args})
 
 def tool(request, j):
     h = CheckCOOKIE(request)
@@ -282,4 +282,4 @@ def New_detail(request, id):
         g = 'False'
 
     New = News.objects.get(id__iexact=id)
-    return render(request,  context={"Nick": h, "ROOT": g, "news": news(), "new": New})
+    return render(request, "First/New.html", context={"Nick": h, "ROOT": g, "news": news(), "new": New})

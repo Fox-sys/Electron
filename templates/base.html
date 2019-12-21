@@ -17,11 +17,16 @@
     {% block css %}
 
     {% endblock %}
+
+</head>
+<body background="/media/images/img/circutry.jpg">
 <script src="{% static 'js/vendor/modernizr-3.7.1.min.js' %}"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-</head>
-<body background="/media/images/img/circutry.jpg">
+    <script>window.jQuery || document.write('<script src="/static/js/vendor/jquery-3.4.1.min.js"><\/script>')</script>
+<script src="{% static 'js/plugins.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'js/tools.js' %}"></script>
     <header class="container header">
         <div class="container top">
             <img class="item top-logo" src="/media/images/img/Electron128.png" alt="">
@@ -46,9 +51,6 @@
             <div class="container block navbar-block">
                 <a class="item link navbar-link" href="{% url 'Forum_url' %}">Форум</a>
             </div>
-            <div class="container block navbar-block">
-<a class="item link navbar-link" href="{% url 'New_Art_url' %}">Создать статью</a>
-</div>
             {% if Nick == "" %}
 
             <div class="container block navbar-block"></div>
@@ -82,8 +84,6 @@
 <script src="{% static 'js/vendor/modernizr-3.7.1.min.js' %}"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-<script>window.jQuery || document.write('<script src="js/vendor/jquery-3.4.1.min.js"><\/script>')</script>
-<script src="{% static 'js/plugins.js' %}"></script>
-<script src="{% static 'js/main.js' %}"></script>
+
 </body>
 </html>

@@ -10,6 +10,12 @@
 <div class="container main-container">
     <div class="container generic">
         <ol class="container thread-list">
+            <li class="container thread">
+                <img class="thread-icon" src="img/plus-sign128.png" alt="">
+                <div class="container thread-description">
+                    <a class="item thread-title" href="{% url 'New_Art_url' arg %}">Создать тему</a>
+                </div>
+            </li>
             {% for i in ar %}
             <li class="container thread">
                 <img class="thread-icon" src="/media/images/favicon.ico" alt="">
