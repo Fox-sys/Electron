@@ -54,8 +54,12 @@
              <div class="container block navbar-block">
                 <a class="item link navbar-link" href="{% url 'art_list_url' %}">Уроки</a>
             </div>
+            {% if ROOT == "True" %}
+            <div class="container block navbar-block">
+                <a class="item link navbar-link" href="/admin">админ-панель</a>
+            </div>
+            {% endif %}
             {% if Nick == "" %}
-
             <div class="container block navbar-block"></div>
             <div class="container block navbar-block">
                 <a class="item link navbar-link" href="{% url 'auto_url' %}">Войти</a>
