@@ -282,4 +282,4 @@ def New_detail(request, id):
         g = 'False'
 
     New = News.objects.get(id__iexact=id)
-    return render(request,  context={"Nick": h, "ROOT": g, "news": news(), })
+    return render(request,  context={"Nick": h, "ROOT": g, "news": news(), "new": New})
