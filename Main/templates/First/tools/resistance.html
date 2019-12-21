@@ -1,0 +1,46 @@
+{% extends "First/Base_blok.html"%}
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/tools.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container main-container">
+    <div class="container side-bar">
+        <h1 class="item title side-bar-title">
+            Новости
+        </h1>
+       {% for i in news %}
+        <a class="item link side-bar-link">
+            <span class="date">{{i.pub_date_com}} </span>{{i.Title}}
+        </a>
+        {% endfor %}
+    </div>
+    <div class="container generic">
+        <h1 class="item generic-title">Сопротивление в последовательной цепи</h1>
+        <div class="item">
+            <label>
+                МОм
+                <input id="mega"> +
+            </label><br>
+            <label>
+                КОм
+                <input id="kilo"> +
+            </label><br>
+            <label>
+                Ом
+                <input id="one"> +
+            </label><br>
+            <label>
+                мОм
+                <input id="milli"> =
+            </label><br>
+
+            <button id="calc-res">Подсчитать</button>
+            <span id="result-text"></span>
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/tools.js' %}"></script>
+{% endblock %}

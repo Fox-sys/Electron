@@ -1,0 +1,93 @@
+{% extends "First/Base_blok.html"%}
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/tools.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container main-container">
+    <div class="container side-bar">
+        <h1 class="item title side-bar-title">
+            Новости
+        </h1>
+        {% for i in news %}
+        <a class="item link side-bar-link">
+            <span class="date">{{i.pub_date_com}} </span>{{i.Title}}
+        </a>
+        {% endfor %}
+    </div>
+    <div class="container generic">
+        <h1 class="item generic-title">Определение сопротивления резистора по цветам</h1>
+        <div class="item">
+            <label>
+                Первая полоса
+                <select id="c1" class="select-color" style="background-color: Black;color: white">
+                    <option value="0" style="color: white; background-color: Black" selected="selected">Чёрный</option>
+                    <option value="1" style="color: black; background-color: Brown">Коричневый</option>
+                    <option value="2" style="color: black; background-color: Red">Красный</option>
+                    <option value="3" style="color: black; background-color: Orange">Оранжевый</option>
+                    <option value="4" style="color: black; background-color: Yellow">Желтый</option>
+                    <option value="5" style="color: black; background-color: Green">Зелёный</option>
+                    <option value="6" style="color: black; background-color: Blue">Синий</option>
+                    <option value="7" style="color: black; background-color: Magenta">Фиолетовый</option>
+                    <option value="8" style="color: black; background-color: Grey">Серый</option>
+                    <option value="9" style="color: black; background-color: White">Белый</option>
+                </select><br>
+            </label>
+            <label>
+                Вторая полоса
+                <select id="c2" class="select-color" style="background-color: Black;color: white">
+                    <option value="0" style="color: white; background-color: Black" selected="selected">Чёрный</option>
+                    <option value="1" style="color: black; background-color: Brown">Коричневый</option>
+                    <option value="2" style="color: black; background-color: Red">Красный</option>
+                    <option value="3" style="color: black; background-color: Orange">Оранжевый</option>
+                    <option value="4" style="color: black; background-color: Yellow">Желтый</option>
+                    <option value="5" style="color: black; background-color: Green">Green</option>
+                    <option value="6" style="color: black; background-color: Blue">Blue</option>
+                    <option value="7" style="color: black; background-color: Magenta">Violet</option>
+                    <option value="8" style="color: black; background-color: Grey">Grey</option>
+                    <option value="9" style="color: black; background-color: White">White</option>
+                </select><br>
+            </label>
+            <label>
+                Третья полоса
+                <select id="c3" class="select-color" style="color: white;background-color: Black">
+                    <option style="color: black; background-color: Violet" value="0.001">Розовый</option>
+                    <option style="color: black; background-color: Silver" value="0.01">Серебряный</option>
+                    <option style="color: black; background-color: Gold" value="0.1">Золотой</option>
+                    <option style="color: white; background-color: Black" value="1" selected="selected">Чёрный</option>
+                    <option style="color: black; background-color: Brown" value="10">Коричневый</option>
+                    <option style="color: black; background-color: Red" value="100">Красный</option>
+                    <option style="color: black; background-color: Orange" value="1000">Оранжевый</option>
+                    <option style="color: black; background-color: Yellow" value="10000">Желтый</option>
+                    <option style="color: black; background-color: Green" value="100000">Зелёный</option>
+                    <option style="color: black; background-color: Blue" value="1000000">Синий</option>
+                    <option style="color: black; background-color: Magenta" value="10000000">Фиолетовый</option>
+                    <option style="color: black; background-color: Grey" value="100000000">Серый</option>
+                    <option style="color: black; background-color: White" value="1000000000">Белый</option>
+                </select><br>
+            </label>
+            <label>
+                Четвёртая полоса
+                <select id="c4" class="select-color">
+                    <option value="0.2" style="background-color: White" selected="selected">Нет</option>
+                    <option style="background-color: Silver" value="0.1">Серебряный</option>
+                    <option style="background-color: Gold" value="0.05">Золотой</option>
+                    <option style="background-color: Brown" value="0.01">Коричневый</option>
+                    <option style="background-color: Red" value="0.02">Красный</option>
+                    <option style="background-color: Orange" value="0.0005">Оранжевый</option>
+                    <option style="background-color: Yellow" value="0.0002">Желтый</option>
+                    <option style="background-color: Green" value="0.005">Зелёный</option>
+                    <option style="background-color: Blue" value="0.0025">Синий</option>
+                    <option style="background-color: Magenta" value="0.001">Фиолетовый</option>
+                    <option style="background-color: Grey" value="0.0001">Серый</option>
+                </select><br>
+            </label>
+            <button id="calc-res-c">Подсчитать</button>
+            <span id="result-text"></span>
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/tools.js' %}"></script>
+{% endblock %}

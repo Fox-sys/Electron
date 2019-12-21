@@ -1,0 +1,52 @@
+{% extends "First/Base_blok.html" %}
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/tools.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container main-container">
+    <div class="container side-bar">
+        <h1 class="item title side-bar-title">
+            Новости
+        </h1>
+        {% for i in news %}
+        <a class="item link side-bar-link">
+            <span class="date">{{i.pub_date_com}} </span>{{i.Title}}
+        </a>
+        {% endfor %}
+    </div>
+    <div class="container generic">
+        <div class="container tools-row">
+            <div class="container tools-item" id="tool-res">
+                <a style="text-decoration: none;" href = "{% url 'tool_url' 'resistance' %}">
+                <img class="item tools-item-icon" src="/media/images/img/ohm-icon128.png" alt=""></a>
+                <span class="item tools-text">Сопротивление в последовательной цепи</span>
+            </div>
+            <div class="container tools-item" id="tool-res-p">
+                <a style="text-decoration: none;" href = "{% url 'tool_url' 'resistance_par' %}">
+                    <img class="item tools-item-icon" src="/media/images/img/ohm-icon128.png" alt=""></a>
+                <span class="item tools-text">Сопротивление в паралельной цепи</span>
+            </div>
+            <div class="container tools-item" id="tool-cap">
+                <a style="text-decoration: none;" href = "{% url 'tool_url' 'capacitance' %}">
+                    <img class="item tools-item-icon" src="/media/images/img/capacitor128.png" alt=""></a>
+                <span class="item tools-text">Электроёмкость в последовательной цепи</span>
+            </div>
+            <div class="container tools-item" id="tool-cap-p">
+                <a style="text-decoration: none;" href = "{% url 'tool_url' 'capacitance_par' %}">
+                    <img class="item tools-item-icon" src="/media/images/img/capacitor128.png" alt=""></a>
+                <span class="item tools-text">Электроёмкость в паралельной цепи</span>
+            </div>
+        </div>
+        <div class="container tools-row">
+            <div class="container tools-item" id="tool-color">
+                <a style="text-decoration: none;" href = "{% url 'tool_url' 'resistance_by_color' %}">
+                    <img class="item tools-item-icon" src="/media/images/img/resistor128.png" alt=""></a>
+                <span class="item tools-text">Сопротивление резистора по цветам</span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

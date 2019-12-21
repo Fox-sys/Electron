@@ -1,0 +1,24 @@
+{% extends "First/Base_blok.html"%}
+{% block title %}
+    {{Article.name_art}}
+{% endblock %}
+{% block content %}
+    Article: <br>
+    <a href="{% url 'NSProfile_url' Nic=Article.author_art %}">{{Article.author_art}}</a><br>
+    {{Article.text_art}}<br>
+    {{Article.pub_date_art}}<br>
+    Comments: <br>
+    {% if Nick != "" %}
+    <a href="{% url 'comment_url' id=Article.id %}">Новый комментарий</a><br>
+    {% endif %}
+    {% for i in comment %}
+        {% if i.article_com.name_art == Article.name_art %}
+            <a href="{% url 'NSProfile_url' Nic=i.author_com %}">{{i.author_com}}</a><br>
+            {{i.text_com}}<br>
+            {{i.pub_date_com}}<br>
+            {% if ROOT == 'True' or i.author_com == Nick %}
+            <a href="{% url 'del_com_url' id=i.id %}">Удалить</a><br>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+{% endblock %}

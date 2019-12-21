@@ -1,0 +1,8 @@
+{% extends "First/Base_blok.html" %}
+{% block content %}
+ <form action="{% url 'comment_url' id=Id %}" method="post">
+     {% csrf_token %}
+     {{Form.Text}}<br>
+     <button type="submit" name="But4">Submit</button>
+ </form>
+{% endblock %}

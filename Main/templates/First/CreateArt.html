@@ -1,0 +1,9 @@
+{% extends "First/Base_blok.html" %}
+{% block content %}
+ <form action="{% url 'New_Art_url' %}" method="post">
+     {% csrf_token %}
+     {{Form.Title}}<br>
+     {{Form.Text}}<br>
+     <button type="submit" name="But1">Submit</button>
+ </form>
+{% endblock %}

@@ -1,0 +1,30 @@
+.tools-grid {
+    flex-shrink: 3;
+    padding: 25px;
+    background-color: #ffffff;
+    box-shadow: 3px 3px 5px 1px rgba(0, 0, 0, 0.25);
+}
+
+.tools-row {
+    flex-direction: row;
+}
+
+.tools-item {
+    margin: 10px;
+    padding: 25px;
+    width: 150px;
+    height: 150px;
+    background-color: #ffd11d;
+    box-shadow: 3px 3px 5px 1px rgba(0, 0, 0, 0.25);
+    align-items: center;
+}
+
+.tools-item-icon {
+    width: 96px;
+    height: 96px;
+    margin-bottom: 10px;
+}
+
+.tools-text {
+    text-align: center;
+}

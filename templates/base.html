@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="shortcut icon" href="/media/images/img/Electron128.png" type="image/x-icon" />
+    <title>
+        {% block title %}
+            Электрон
+        {% endblock %}
+    </title>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="manifest" href="site.webmanifest">
+    <!-- Place favicon.ico in the root directory -->
+    <meta name="theme-color" content="#fafafa">
+    {% block css %}
+
+    {% endblock %}
+<script src="{% static 'js/vendor/modernizr-3.7.1.min.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+</head>
+<body background="/media/images/img/circutry.jpg">
+    <header class="container header">
+        <div class="container top">
+            <img class="item top-logo" src="/media/images/img/Electron128.png" alt="">
+            <div class="container top-name">
+                <a class="item top-name-text">Электрон</a>
+            </div>
+            <div class="container top-user">
+                {% if Nick == "" %}
+                <span class="item top-user-text">Добро пожаловать,<br>Гость</span>
+                {% else %}
+                <span class="item top-user-text">Добро пожаловать,<br>{{Nick}}</span>
+                {% endif %}
+            </div>
+        </div>
+        <div class="container navbar">
+            <div class="container block navbar-block">
+                <a class="item link navbar-link" href="{% url 'main_url' %}">Главная страница</a>
+            </div>
+            <div class="container block navbar-block">
+                <a class="item link navbar-link" href="{% url 'tools_url' %}">Инструменты</a>
+            </div>
+            <div class="container block navbar-block">
+                <a class="item link navbar-link" href="{% url 'Forum_url' %}">Форум</a>
+            </div>
+            <div class="container block navbar-block">
+<a class="item link navbar-link" href="{% url 'New_Art_url' %}">Создать статью</a>
+</div>
+            {% if Nick == "" %}
+
+            <div class="container block navbar-block"></div>
+            <div class="container block navbar-block">
+                <a class="item link navbar-link" href="{% url 'auto_url' %}">Войти</a>
+            </div>
+            {% else %}
+            <div class="container block navbar-block"></div>
+            <div class="container block navbar-block">
+                <a class="item link navbar-link" href="{% url 'exit_url' %}">Выйти</a>
+            </div>
+            {% endif %}
+        </div>
+    </header>
+    {% block content %}
+
+    {% endblock %}
+    <style>
+        footer {
+             position: fixed; /* Фиксированное положение */
+            left: 0; bottom: 0; /* Левый нижний угол */
+            padding: 10px;
+        }
+    </style>}
+    <footer class="container footer">
+    <div class="container footer-copyright">
+        <a class="item text copyright-text">Электрон© 2019-2020</a> <a class="item text copyright-text" href="{% url 'Support_url' %}">Обратится в Тех. поддержку можно кликнув
+                сюда</a>.
+    </div>
+    </footer>
+<script src="{% static 'js/vendor/modernizr-3.7.1.min.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="js/vendor/jquery-3.4.1.min.js"><\/script>')</script>
+<script src="{% static 'js/plugins.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

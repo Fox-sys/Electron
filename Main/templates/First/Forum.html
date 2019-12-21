@@ -1,0 +1,74 @@
+{% extends "First/Base_blok.html"%}
+{% load static %}
+{% block title %}
+    Forum
+{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/forum.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container main-container">
+    <div class="container generic">
+        <h1 class="forum-title">Форум</h1>
+        <ol class="forum-list">
+            <li class="sub-forum">
+                <h3 class="sub-forum-title">Электроника</h3>
+                <ol class="sub-forum-list">
+                    <li class="forum-category">
+                        <a class="item link side-bar-link" href="{% url 'subforum_url' 'ElS' %}"><h3 class="forum-category-title">Свои проекты</h3></a>
+                    </li>
+                    <li class="forum-category">
+                        <a class="item link side-bar-link" href="{% url 'subforum_url' 'ElT' %}"><h3 class="forum-category-title">Теория</h3></a>
+                    </li>
+                    <li class="forum-category">
+                        <a class="item link side-bar-link" href="{% url 'subforum_url' 'ElH' %}"><h3 class="forum-category-title">Требуется помощь</h3></a>
+                    </li>
+                </ol>
+            </li>
+            <li class="sub-forum">
+                <h3 class="sub-forum-title">Программирование микроконтроллеров</h3>
+                <ol class="sub-forum-list">
+                    <li class="forum-category">
+                       <a class="item link side-bar-link" href="{% url 'subforum_url' 'MS' %}"><h3 class="forum-category-title">Свои проекты</h3></a>
+                    </li>
+                    <li class="forum-category">
+                        <a class="item link side-bar-link" href="{% url 'subforum_url' 'MT' %}"><h3 class="forum-category-title">Идеи</h3></a>
+                    </li>
+                    <li class="forum-category">
+                        <a class="item link side-bar-link" href="{% url 'subforum_url' 'MH' %}"><h3 class="forum-category-title">Требуется помощь</h3></a>
+                    </li>
+                </ol>
+            </li>
+        </ol>
+    </div>
+    <div class="container side-bar side-bar-right">
+        <h1 class="item title side-bar-title smaller">
+            Поиск по форуму
+        </h1>
+        <form class="item link side-bar-interactive" method="post">
+            {% csrf_token %}
+            <label>
+                <textarea name = "req" style="max-height: 15px;width: 100%"></textarea>
+            </label>
+            <button>Найти</button>
+        </form>
+        <h1 class="item title side-bar-title smaller">
+            Недавняя активность
+        </h1>
+        {% for i in Art_list %}
+        <a class="item link side-bar-link" href="{% url 'art_url' id=i.id %}">
+            {{i.name_art}}<br>
+            <span class="date">от {{i.author_art}}</span>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+<script src="{% static 'js/vendor/modernizr-3.7.1.min.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="js/vendor/jquery-3.4.1.min.js"><\/script>')</script>
+<script src="{% static 'js/plugins.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+{% endblock %}

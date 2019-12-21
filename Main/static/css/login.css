@@ -1,0 +1,16 @@
+.login-form {
+    align-items: center;
+}
+
+.login-input {
+    max-width: 200px;
+    margin-bottom: 5px;
+}
+
+.login-checkbox {
+    flex-direction: row;
+}
+
+.login-label {
+    margin-left: 10px;
+}

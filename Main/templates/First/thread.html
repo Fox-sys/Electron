@@ -1,0 +1,48 @@
+{% extends "First/Base_blok.html"%}
+{% load static %}
+{% block title %}
+    Forum
+{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/forum.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container main-container">
+    <div class="container generic">
+        <h3 class="item sub-forum-title">{{Article.name_art}}</h3>
+        <ol class="container thread-list">
+            <h3 class="item comment-author">{{Article.author_art}}
+            </h3>
+            <li class="container thread">
+                <p class="item comment-text"> {{Article.text_art}}
+                </p>
+            </li>
+            {% if Nick != "" %}
+            <li class="container thread">
+                <form method="post" class="container row-flex">
+                    {% csrf_token %}
+                    <input type="submit" class="item comment-author" value="Ответить">
+                    <textarea name="text" class="item comment-text" style="width: 100%"></textarea>
+                </form>
+            </li>
+            {% endif %}
+            {% for i in comment %}
+                {% if i.article_com.name_art == Article.name_art %}
+            <br><h3 class="item comment-author">{{i.author_com}}
+            </h3>
+            <li class="container thread">
+                        <p class="item comment-text"> {{i.text_com}}
+                        </p>
+                    </li>
+                    {% if ROOT == 'True' or i.author_com == Nick %}
+                    <a style="text-decoration: none; color: #b2b2b2" href="{% url 'del_com_url' id=i.id %}">Удалить</a>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </ol>
+    </div>
+</div>
+
+{% endblock %}

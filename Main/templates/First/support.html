@@ -1,0 +1,21 @@
+{% extends "First/Base_blok.html"%}
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/article.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container main-container">
+    <div class="container generic">
+        <h1 class="item generic-title-big centered">Обратится в поддержку</h1>
+        <form method="post" class="container" style="align-items: center">
+            {% csrf_token %}
+            <input name = "Problem" class="item" type="text" placeholder="Проблема" style="width: 200px">
+            <textarea name = "Text" class="item" placeholder="Сообщение" style="width: 500px;height: 200px"></textarea>
+            <input class="item" type="submit">
+        </form>
+    </div>
+</div>
+
+{% endblock %}
