@@ -1,0 +1,30 @@
+{% extends "First/Base_blok.html"%}
+{% load static %}
+{% block title %}
+    {{new.Title}}
+{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/article.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container main-container">
+    <div class="container generic">
+        <div class="container article">
+            <span class="item date">{{new.pub_date_com}}</span>
+            <h1 class="item title generic-title">
+                {{new.Title}}
+            </h1>
+            <h5 class="item subtitle generic-subtitle">
+                {{new.Subtitle}}
+            </h5>
+            <p class="item text generic-text">
+                {{new.text}}<br><br>
+            </p>
+            <hr>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
