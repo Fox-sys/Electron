@@ -38,3 +38,11 @@ class News(models.Model):
 
     def __str__(self):
         return '{}'.format(self.Title)
+
+class exLesson(models.Model):
+    Title = models.CharField("Название", max_length=100)
+    link = models.CharField("название html файла", max_length=30)
+    Type = models.CharField("тип урока", max_length=30)
+
+    def __str__(self):
+        return '{} {}'.format(self.Title, self.Type)

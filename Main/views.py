@@ -269,10 +269,27 @@ def tool(request, j):
     return render(request, "First/tools/"+ j +".html", context={"Nick": h, "ROOT": g, "news": news()})
 
 def article_list(request):
-    pass
+    typeList = ["starts", "radio"]
+    res = {}
+    h = CheckCOOKIE(request)
+    if 'ROOT' in request.COOKIES:
+        g = request.COOKIES['ROOT']
+    else:
+        g = 'False'
+    for i in typeList:
+        res[i]=exLesson.objects.filter(Type__iexact=i)
+    print()
+    print(res)
+    print()
+    return render(request, "First/lessons.html", context={"Nick": h, "ROOT": g, "news": news(), "lessons": res})
 
 def article_l_det(request, q):
-    pass
+    h = CheckCOOKIE(request)
+    if 'ROOT' in request.COOKIES:
+        g = request.COOKIES['ROOT']
+    else:
+        g = 'False'
+    return render(request, "First/Lessons/" + q + ".html", context={"Nick": h, "ROOT": g, "news": news()})
 
 def New_detail(request, id):
     h = CheckCOOKIE(request)
@@ -280,6 +297,5 @@ def New_detail(request, id):
         g = request.COOKIES['ROOT']
     else:
         g = 'False'
-
     New = News.objects.get(id__iexact=id)
     return render(request, "First/New.html", context={"Nick": h, "ROOT": g, "news": news(), "new": New})

@@ -1,0 +1,45 @@
+{% extends "First/Base_blok.html"%}
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/article.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container main-container">
+    <div class="container side-bar">
+        <h1 class="item title side-bar-title">
+            Новости
+        </h1>
+        {% for i in news %}
+        <a class="item link side-bar-link">
+            <span class="date">{{i.pub_date_com}} </span>{{i.Title}}
+        </a>
+        {% endfor %}
+    </div>
+    <div class="container generic">
+            {% for key, i in lessons.items %}
+                {% if key == "starts" %}
+                    <h1 class="item generic-title">Основы</h1>
+                    <ul class="item article-list">
+                        {% for j in i %}
+                            <li>
+                                <span class="date">{{j.id}} </span><a class="item generic-link" href="{% url 'art_det_url' j.link %}">{{j.Title}}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% elif key == "radio" %}
+                    <h1 class="item generic-title">Радиосвязь</h1>
+                    <ul class="item article-list">
+                        {% for j in i %}
+                            <li>
+                                <span class="date">1 </span><a class="item generic-link" href="{% url 'art_det_url' j.link %}">Электромагнитные волны</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endfor %}
+
+    </div>
+</div>
+{% endblock %}
