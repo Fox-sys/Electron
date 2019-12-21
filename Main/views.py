@@ -278,9 +278,6 @@ def article_list(request):
         g = 'False'
     for i in typeList:
         res[i]=exLesson.objects.filter(Type__iexact=i)
-    print()
-    print(res)
-    print()
     return render(request, "First/lessons.html", context={"Nick": h, "ROOT": g, "news": news(), "lessons": res})
 
 def article_l_det(request, q):
