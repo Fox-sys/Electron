@@ -24,7 +24,7 @@
                     <ul class="item article-list">
                         {% for j in i %}
                             <li>
-                                <span class="date">{{j.id}} </span><a class="item generic-link" href="{% url 'art_det_url' j.link %}">{{j.Title}}</a>
+                                <span class="date">{{j.num}} </span><a class="item generic-link" href="{% url 'art_det_url' j.link %}">{{j.Title}}</a>
                             </li>
                         {% endfor %}
                     </ul>
@@ -33,7 +33,7 @@
                     <ul class="item article-list">
                         {% for j in i %}
                             <li>
-                                <span class="date">1 </span><a class="item generic-link" href="{% url 'art_det_url' j.link %}">{{j.Title}}</a>
+                                <span class="date">{{j.num}} </span><a class="item generic-link" href="{% url 'art_det_url' j.link %}">{{j.Title}}</a>
                             </li>
                         {% endfor %}
                     </ul>
