@@ -47,3 +47,9 @@ class exLesson(models.Model):
 
     def __str__(self):
         return '{} {}'.format(self.Title, self.Type)
+
+    def __eq__(self, other):
+        return self.num == other.num
+
+    def __lt__(self, other):
+        return self.num < other.num

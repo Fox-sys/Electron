@@ -270,6 +270,8 @@ def tool(request, j):
 
 def article_list(request):
     typeList = ["starts", "radio"]
+    prom = []
+
     res = {}
     h = CheckCOOKIE(request)
     if 'ROOT' in request.COOKIES:
@@ -277,7 +279,8 @@ def article_list(request):
     else:
         g = 'False'
     for i in typeList:
-        res[i]=exLesson.objects.filter(Type__iexact=i)
+        prom = exLesson.objects.filter(Type__iexact=i)
+        res[i] = sorted(prom)
     return render(request, "First/lessons.html", context={"Nick": h, "ROOT": g, "news": news(), "lessons": res})
 
 def article_l_det(request, q):
