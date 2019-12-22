@@ -40,6 +40,7 @@ class News(models.Model):
         return '{}'.format(self.Title)
 
 class exLesson(models.Model):
+    num = models.IntegerField("Номер урока в своей группе")
     Title = models.CharField("Название", max_length=100)
     link = models.CharField("название html файла", max_length=30)
     Type = models.CharField("тип урока", max_length=30)
