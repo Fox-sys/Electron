@@ -11,11 +11,11 @@
 {% block content %}
 <div class="container main-container">
     <div class="container generic">
-        <h1 class="item generic-title-big centered">Новая Статья</h1>
+        <h1 class="item generic-title-big centered">Новый тред</h1>
         <form method="post" class="container" style="align-items: center">
             {% csrf_token %}
-            <input name="Title" class="item" type="text" placeholder="Название статьи" style="width: 500px">
-            <textarea name = "Text" class="item" placeholder="Текст статьи" style="width: 800px;height: 500px"></textarea>
+            <input name="Title" class="item" type="text" placeholder="Название треда" style="width: 500px">
+            <textarea name = "Text" class="item" placeholder="Текст треда" style="width: 800px;height: 500px"></textarea>
             <select name="Theme" id="">
 
                 <option {% if type == "ElS" %}selected{% endif %} value="ElS">Свои проекты (Электроника)</option>
