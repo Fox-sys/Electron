@@ -9,15 +9,17 @@ from django.core.mail import send_mail
 import os
 
 
-
 class tools(TipRender, View):
     temp = "First/tools"
+
 
 class hello(TipRender, View):
     temp = 'First/index'
 
+
 class NSProfile(TipRender, View):
     temp = "First/NSProfile"
+
 
 class article_detail(View):
     temp = "First/thread"
@@ -32,7 +34,8 @@ class article_detail(View):
             art = get_object_or_404(Article, id__iexact=kwargs['id'])
             comment = Commet.objects.all()
             self.temp += '.html'
-            return render(request, self.temp, context={'Nick': h, "ROOT": g, "Article": art, 'comment': reversed(comment), "news": news()})
+            return render(request, self.temp,
+                          context={'Nick': h, "ROOT": g, "Article": art, 'comment': reversed(comment), "news": news()})
 
     def post(self, request, **kwargs):
         h = CheckCOOKIE(request)
@@ -58,7 +61,8 @@ class Forum(View):
             g = 'False'
         All_Articles = Article.objects.all()
         form = SearchForm()
-        return  render(request, 'First/Forum.html', context = {'Art_list': reversed(All_Articles),'Nick': h, "ROOT": g, 'form': form, "news": news()})
+        return render(request, 'First/Forum.html',
+                      context={'Art_list': reversed(All_Articles), 'Nick': h, "ROOT": g, 'form': form, "news": news()})
 
     def post(self, request):
         if 'ROOT' in request.COOKIES:
@@ -70,7 +74,10 @@ class Forum(View):
         if bound_form.is_valid():
             new_search = bound_form.ret()
             All_Articles = Article.objects.filter(name_art=new_search)
-            return render(request, 'First/Forum.html', context={'Art_list': reversed(All_Articles), 'Nick': h, "ROOT": g, 'form': bound_form, "news": news()})
+            return render(request, 'First/Forum.html',
+                          context={'Art_list': reversed(All_Articles), 'Nick': h, "ROOT": g, 'form': bound_form,
+                                   "news": news()})
+
 
 class CreateArticle(View):
     def get(self, request, type):
@@ -81,7 +88,8 @@ class CreateArticle(View):
             g = 'False'
         if h != "":
             form = ArticleForm()
-            return render(request, 'First/create_article.html', context = {'Form': form,'Nick': h, "ROOT": g, "news": news(), 'type': type})
+            return render(request, 'First/create_article.html',
+                          context={'Form': form, 'Nick': h, "ROOT": g, "news": news(), 'type': type})
         else:
             return redirect("../")
 
@@ -97,18 +105,20 @@ class CreateArticle(View):
             for i in n:
                 if i.name_art == request.POST['Title']:
                     art = Article.objects.get(name_art__iexact=request.POST['Title'])
-                    return render(request, 'First/AlReadyExists.html', context={'art': request.POST['Title'],'Nick': h, "ROOT": g, "news": news()})
+                    return render(request, 'First/AlReadyExists.html',
+                                  context={'art': request.POST['Title'], 'Nick': h, "ROOT": g, "news": news()})
                 else:
                     continue
             new_art = bound_form.save(h)
             art = Article.objects.get(name_art__iexact=request.POST['Title'])
             return redirect('../forum' + '/' + str(art.id))
 
+
 class reg(View):
     def get(self, request):
         h = CheckCOOKIE(request)
         form = UserForm()
-        return render(request, 'First/CreateUser.html', context={'Form': form,'Nick': h, "news": news()})
+        return render(request, 'First/CreateUser.html', context={'Form': form, 'Nick': h, "news": news()})
 
     def post(self, request):
         h = CheckCOOKIE(request)
@@ -122,14 +132,15 @@ class reg(View):
             for i in n:
                 if i.Nickname_us == request.POST['UserNick']:
                     User = user.objects.get(Nickname_us__iexact=request.POST['UserNick'])
-                    return render(request, 'First/UserAlReadyExists.html', context={'art': request.POST['UserNick'],'Nick': h, "ROOT": g, "news": news()})
+                    return render(request, 'First/UserAlReadyExists.html',
+                                  context={'art': request.POST['UserNick'], 'Nick': h, "ROOT": g, "news": news()})
                 else:
                     continue
 
             new_user = bound_form.save()
             User = user.objects.get(Nickname_us__iexact=request.POST['UserNick'])
             response = HttpResponse(
-                 """
+                """
                        <script type="text/javascript">
                            location.replace("../");
                        </script>
@@ -139,6 +150,7 @@ class reg(View):
             response.set_cookie("UserNick", request.POST["UserNick"])
             response.set_cookie("ROOT", user.objects.get(Nickname_us__iexact=request.POST['UserNick']).root_us)
             return response
+
 
 def exit_(request):
     h = CheckCOOKIE(request)
@@ -155,6 +167,7 @@ def exit_(request):
     req.set_cookie("ROOT", False)
     return req
 
+
 class Auto(View):
     def get(self, request):
         h = CheckCOOKIE(request)
@@ -163,7 +176,7 @@ class Auto(View):
         else:
             g = 'False'
         form = AutoForm()
-        return render(request, 'First/AutoUser.html', context={'Form': form,'Nick': h, "ROOT": g, "news": news()})
+        return render(request, 'First/AutoUser.html', context={'Form': form, 'Nick': h, "ROOT": g, "news": news()})
 
     def post(self, request):
         h = CheckCOOKIE(request)
@@ -175,7 +188,7 @@ class Auto(View):
             bound_form = AutoForm(request.POST)
             if bound_form.is_valid() and bound_form.AutoFormCH() == True:
                 req = HttpResponse(
-                     """
+                    """
                            <script type="text/javascript">
                                location.replace("../");
                            </script>
@@ -195,6 +208,7 @@ class Auto(View):
                 )
             return req
 
+
 def delete_art(request, id):
     h = CheckCOOKIE(request)
     n = Article.objects.get(id=id)
@@ -206,7 +220,8 @@ def delete_art(request, id):
         Article.objects.filter(id=id).delete()
         return redirect("../../../forum")
     else:
-        return render(request, "First/NotYour.html",  context = {"Nick": h, "ROOT": g, "article": n, "news": news()})
+        return render(request, "First/NotYour.html", context={"Nick": h, "ROOT": g, "article": n, "news": news()})
+
 
 def delete_com(request, id):
     h = CheckCOOKIE(request)
@@ -214,13 +229,14 @@ def delete_com(request, id):
         g = request.COOKIES['ROOT']
     else:
         g = 'False'
-    n = Commet.objects.get(id__iexact = id)
+    n = Commet.objects.get(id__iexact=id)
     j = n.article_com.id
     if n.author_com == h or g == 'True':
         Commet.objects.filter(id=id).delete()
         return redirect("../../../forum/" + str(j))
     else:
-        return render(request, "First/NotYour.html",  context = {"Nick": h, "ROOT": g, "comment": n, "news": news()})
+        return render(request, "First/NotYour.html", context={"Nick": h, "ROOT": g, "comment": n, "news": news()})
+
 
 class Support(View):
     def get(self, request):
@@ -231,8 +247,9 @@ class Support(View):
             g = 'False'
         if h != "":
             form = Sup()
-            p = user.objects.get(Nickname_us__iexact = h)
-            return render(request, 'First/support.html', context={'Form': form, 'Nick': h, "ROOT": g, "us": p, "news": news()})
+            p = user.objects.get(Nickname_us__iexact=h)
+            return render(request, 'First/support.html',
+                          context={'Form': form, 'Nick': h, "ROOT": g, "us": p, "news": news()})
         else:
             return redirect("../../")
 
@@ -247,7 +264,8 @@ class Support(View):
             if bound_form.is_valid():
                 p = user.objects.get(Nickname_us__iexact=h)
                 k = bound_form.save(p.email_us)
-                send_mail(subject = k[1], message = p.Nickname_us + "\n" + p.email_us + "\n" + k[2] , from_email = k[0], recipient_list = ['berestovborisasz@gmail.com'], fail_silently=False)
+                send_mail(subject=k[1], message=p.Nickname_us + "\n" + p.email_us + "\n" + k[2], from_email=k[0],
+                          recipient_list=['berestovborisasz@gmail.com'], fail_silently=False)
         return redirect("../")
 
 
@@ -257,8 +275,10 @@ def subforum(request, args):
         g = request.COOKIES['ROOT']
     else:
         g = 'False'
-    arts = Article.objects.filter(sellf__iexact = args)
-    return render(request, "First/fubforum.html", context={"Nick": h, "ROOT": g, "ar": reversed(arts), "news": news(), "arg": args})
+    arts = Article.objects.filter(sellf__iexact=args)
+    return render(request, "First/fubforum.html",
+                  context={"Nick": h, "ROOT": g, "ar": reversed(arts), "news": news(), "arg": args})
+
 
 def tool(request, j):
     h = CheckCOOKIE(request)
@@ -266,12 +286,12 @@ def tool(request, j):
         g = request.COOKIES['ROOT']
     else:
         g = 'False'
-    return render(request, "First/tools/"+ j +".html", context={"Nick": h, "ROOT": g, "news": news()})
+    return render(request, "First/tools/" + j + ".html", context={"Nick": h, "ROOT": g, "news": news()})
+
 
 def article_list(request):
     typeList = ["starts", "radio"]
     prom = []
-
     res = {}
     h = CheckCOOKIE(request)
     if 'ROOT' in request.COOKIES:
@@ -283,6 +303,7 @@ def article_list(request):
         res[i] = sorted(prom)
     return render(request, "First/lessons.html", context={"Nick": h, "ROOT": g, "news": news(), "lessons": res})
 
+
 def article_l_det(request, q):
     h = CheckCOOKIE(request)
     if 'ROOT' in request.COOKIES:
@@ -290,6 +311,7 @@ def article_l_det(request, q):
     else:
         g = 'False'
     return render(request, "First/Lessons/" + q + ".html", context={"Nick": h, "ROOT": g, "news": news()})
+
 
 def New_detail(request, id):
     h = CheckCOOKIE(request)
