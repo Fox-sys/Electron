@@ -9,6 +9,7 @@ import os
 def news():
     return reversed(News.objects.all())
 
+
 def CheckCOOKIE(request):
     if "UserNick" in request.COOKIES:
         if request.COOKIES["UserNick"] != "":
@@ -19,8 +20,10 @@ def CheckCOOKIE(request):
         h = ""
     return h
 
+
 class TipRender:
     temp = None
+
     def get(self, request, **kwargs):
         h = CheckCOOKIE(request)
         if 'ROOT' in request.COOKIES:
@@ -35,7 +38,8 @@ class TipRender:
             n = get_object_or_404(user, Nickname_us=kwargs['Nic'])
             arts = Article.objects.filter(author_art__iexact=n.Nickname_us)
             self.temp += '.html'
-            return render(request, self.temp, context={'Nick': h, "ROOT": g, "articles": arts, 'User': n, "news": news()})
+            return render(request, self.temp,
+                          context={'Nick': h, "ROOT": g, "articles": arts, 'User': n, "news": news()})
         else:
             self.temp += '.html'
             return render(request, self.temp, context={'Nick': h, "ROOT": g, "news": news(), "News": news()})
