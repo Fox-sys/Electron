@@ -13,7 +13,7 @@
         </h1>
         {% for i in news %}
         <a class="item link side-bar-link">
-            <span class="date">{{i.pub_date_com}} </span>{{i.Title}}
+            <span class="date">{{i.pub_date_com}} </span><a style="text-decoration: none; color: black" href="{% url 'new_detail_url' i.id %}">{{i.Title}}</a>
         </a>
         {% endfor %}
     </div>
