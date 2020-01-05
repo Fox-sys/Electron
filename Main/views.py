@@ -43,13 +43,17 @@ class article_detail(View):
             g = request.COOKIES['ROOT']
         else:
             g = 'False'
-        if "text" in request.POST:
+        p = user.objects.filter(Nickname_us__iexact=h)
+        if len(p) != 0:
+            l = p[0]
+        else:
+            l = 0
+        if "text" in request.POST and l < 1:
             art = Article.objects.get(id__iexact=kwargs["id"])
             bound_form = CommentForm(request.POST)
             if bound_form.is_valid():
                 new_com = bound_form.save(h, art)
-                comment = Commet.objects.all()
-                return redirect("../forum/" + kwargs["id"])
+        return redirect("../forum/" + kwargs["id"])
 
 
 class Forum(View):
@@ -97,7 +101,12 @@ class CreateArticle(View):
             g = request.COOKIES['ROOT']
         else:
             g = 'False'
-        if h != "":
+        p = user.objects.filter(Nickname_us__iexact=h)
+        if len(p) != 0:
+            l = p[0]
+        else:
+            l = 0
+        if h != "" and l.banned < 2:
             form = ArticleForm()
             return render(request, 'First/create_article.html',
                           context={'Form': form, 'Nick': h, "ROOT": g, "news": news(), 'type': type})
