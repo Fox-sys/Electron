@@ -71,11 +71,22 @@ class Forum(View):
             g = 'False'
         h = CheckCOOKIE(request)
         bound_form = SearchForm(request.POST)
+        rets = []
+        t = False
         if bound_form.is_valid():
             new_search = bound_form.ret()
-            All_Articles = Article.objects.filter(name_art=new_search)
+            All_Articles = Article.objects.all()
+            for i in All_Articles:
+                for j in i.tags.all():
+                    for p in new_search:
+                        if j.name == p:
+                            rets.append(i)
+                            t = True
+                            break
+                    if t:
+                        break
             return render(request, 'First/Forum.html',
-                          context={'Art_list': reversed(All_Articles), 'Nick': h, "ROOT": g, 'form': bound_form,
+                          context={'Art_list': reversed(rets), 'Nick': h, "ROOT": g, 'form': bound_form,
                                    "news": news()})
 
 
@@ -109,10 +120,25 @@ class CreateArticle(View):
                                   context={'art': request.POST['Title'], 'Nick': h, "ROOT": g, "news": news()})
                 else:
                     continue
-            new_art = bound_form.save(h)
+            r = []
+            p = ""
+            for i in request.POST['tags']:
+                if i == " ":
+                    r.append(p)
+                    p = ""
+                else:
+                    p += i
+            r.append(p)
+            new_art = bound_form.save(h, r)
             art = Article.objects.get(name_art__iexact=request.POST['Title'])
+            for i in r:
+                p = Tag.objects.filter(name__iexact=i)
+                if len(p) == 0:
+                    g = Tag.objects.create(name=i)
+                    art.tags.add(g)
+                else:
+                    art.tags.add(p[0])
             return redirect('../forum' + '/' + str(art.id))
-
 
 class reg(View):
     def get(self, request):

@@ -19,6 +19,7 @@
                 <p class="item comment-text"> {{Article.text_art}}
                 </p>
             </li>
+            <h3 class="item comment-author">Тэги: {% for i in Article.tags.all %}{{ i.name }} {% endfor %}</h3>
             {% if Nick != "" %}
             <li class="container thread">
                 <form method="post" class="container row-flex">

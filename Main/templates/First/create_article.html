@@ -17,15 +17,14 @@
             <input name="Title" class="item" type="text" placeholder="Название треда" style="width: 500px">
             <textarea name = "Text" class="item" placeholder="Текст треда" style="width: 800px;height: 500px"></textarea>
             <select name="Theme" id="">
-
                 <option {% if type == "ElS" %}selected{% endif %} value="ElS">Свои проекты (Электроника)</option>
-
                 <option {% if type == "ElT" %}selected{% endif %} value="ElT">Теория (Электроника)</option>
                 <option {% if type == "ElH" %}selected{% endif %} value="ElH">Требуется помощь (Электроника)</option>
                 <option {% if type == "MS" %}selected{% endif %} value="MS">Свои проекты (Микроконтроллеры)</option>
                 <option {% if type == "MT" %}selected{% endif %} value="MT">Идеи (Микроконтроллеры)</option>
                 <option {% if type == "MH" %}selected{% endif %} value="MH">Требуется помощь (Микроконтроллеры)</option>
             </select>
+            <input name="tags" class="item" type="text" placeholder="Название треда" style="width: 500px">
             <input class="item" type="submit" value="Создать">
         </form>
     </div>

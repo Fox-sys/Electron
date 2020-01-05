@@ -6,12 +6,14 @@ class ArticleForm(forms.Form):
     Title = forms.CharField(max_length=70)
     Text = forms.CharField(widget=forms.Textarea)
     Theme = forms.CharField(max_length=3)
+    tags = forms.CharField(max_length=255)
 
-    def save(self, Auther):
+    def save(self, Auther, ClearTags):
         new_Article = Article.objects.create(author_art=Auther,
                                              name_art=self.cleaned_data['Title'],
                                              text_art=self.cleaned_data['Text'],
-                                             sellf=self.cleaned_data['Theme'])
+                                             sellf=self.cleaned_data['Theme'],
+                                             )
         return new_Article
 
 
@@ -58,8 +60,16 @@ class SearchForm(forms.Form):
     req = forms.CharField(max_length=70)
 
     def ret(self):
-        return self.cleaned_data['req']
-
+        r = []
+        a = ""
+        for i in self.cleaned_data['req']:
+            if i == " ":
+                r.append(a)
+                a = ""
+            else:
+                a += i
+        r.append(a)
+        return r
 
 class Sup(forms.Form):
     Problem = forms.CharField()

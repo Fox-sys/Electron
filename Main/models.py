@@ -19,6 +19,7 @@ class Article(models.Model):
     text_art = models.TextField()
     sellf = models.CharField("curs", max_length=3)
     pub_date_art = models.DateTimeField(default=datetime.datetime.now())
+    tags = models.ManyToManyField('Tag', blank=True, related_name="posts")
 
     def __str__(self):
         return '{} {} {}'.format(self.id, self.name_art, self.sellf)
@@ -58,3 +59,11 @@ class exLesson(models.Model):
 
     def __lt__(self, other):
         return self.num < other.num
+
+
+class Tag(models.Model):
+    name = models.CharField("название", max_length=30)
+    create_date = models.DateTimeField(default=datetime.datetime.now())
+
+    def __str__(self):
+        return "{} {}".format(self.id, self.name)
