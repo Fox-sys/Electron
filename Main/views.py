@@ -48,7 +48,7 @@ class article_detail(View):
             l = p[0]
         else:
             l = 0
-        if "text" in request.POST and l < 1:
+        if "text" in request.POST and l.banned < 1:
             art = Article.objects.get(id__iexact=kwargs["id"])
             bound_form = CommentForm(request.POST)
             if bound_form.is_valid():
@@ -280,13 +280,16 @@ class Support(View):
             g = request.COOKIES['ROOT']
         else:
             g = 'False'
-        if h != "":
-            form = Sup()
-            p = user.objects.get(Nickname_us__iexact=h)
-            return render(request, 'First/support.html',
-                          context={'Form': form, 'Nick': h, "ROOT": g, "us": p, "news": news()})
+        form = Sup()
+        p = user.objects.filter(Nickname_us__iexact=h)
+        if len(p) != 0:
+            l = p[0]
         else:
-            return redirect("../../")
+            l = 0
+        if l.banned < 3:
+            return render(request, 'First/support.html', context={'Form': form, 'Nick': h, "ROOT": g, "us": p, "news": news()})
+        else:
+            return redirect("../")
 
     def post(self, request):
         h = CheckCOOKIE(request)
@@ -294,13 +297,18 @@ class Support(View):
             g = request.COOKIES['ROOT']
         else:
             g = 'False'
-        if h != "":
-            bound_form = Sup(request.POST)
-            if bound_form.is_valid():
-                p = user.objects.get(Nickname_us__iexact=h)
-                k = bound_form.save(p.email_us)
-                send_mail(subject=k[1], message=p.Nickname_us + "\n" + p.email_us + "\n" + k[2], from_email=k[0],
-                          recipient_list=['berestovborisasz@gmail.com'], fail_silently=False)
+        bound_form = Sup(request.POST)
+        if bound_form.is_valid():
+            if h != "":
+                g = user.objects.get(Nickname_us__iexact=h)
+                p = g.Nickname_us
+                l = g.email_us
+            else:
+                p = "guest"
+                l = "guest@none.ru"
+            k = bound_form.save(l)
+            send_mail(subject=k[1], message=p + "\n" + l + "\n" + k[2], from_email=k[0],
+                      recipient_list=['berestovborisasz@gmail.com'], fail_silently=False)
         return redirect("../")
 
 
