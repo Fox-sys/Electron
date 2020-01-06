@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '=-mgt+e35k$%3(pa0^vp=!@7ogl=k_ifv6lnx#z5-i=6o*vh3_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["192.168.1.38", "localhost", "www.localhost.ru", "localhost.ru", "93.80.3.158", "0.0.0.0", "127.0.0.1", "25.31.31.148"]
 
@@ -123,7 +123,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 # STATIC_ROOT = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, '/static/')
+    "C:/Users/Boris/Desktop/electron-website/Django/venv/app/First/Main/static/"
 ]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
