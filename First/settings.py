@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '=-mgt+e35k$%3(pa0^vp=!@7ogl=k_ifv6lnx#z5-i=6o*vh3_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["192.168.1.38", "localhost", "www.localhost.ru", "localhost.ru", "93.80.3.158", "0.0.0.0", "127.0.0.1", "25.31.31.148"]
 
@@ -121,9 +121,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-# STATIC_ROOT = '/static/'
+STATIC_ROOT = "C:/Users/Boris/Desktop/electron-website/Django/venv/app/First/static"
 STATICFILES_DIRS = [
-    "C:/Users/Boris/Desktop/electron-website/Django/venv/app/First/Main/static/"
+    "C:/Users/Boris/Desktop/electron-website/Django/venv/app/First/Main/static"
 ]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
