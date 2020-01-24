@@ -25,6 +25,7 @@ class article_detail(View):
     temp = "First/thread"
 
     def get(self, request, **kwargs):
+        null = False
         h = CheckCOOKIE(request)
         if 'ROOT' in request.COOKIES:
             g = request.COOKIES['ROOT']
@@ -34,8 +35,10 @@ class article_detail(View):
             art = get_object_or_404(Article, id__iexact=kwargs['id'])
             comment = Commet.objects.all()
             self.temp += '.html'
+            if art.tags.all()[0].name == "":
+                null = True
             return render(request, self.temp,
-                          context={'Nick': h, "ROOT": g, "Article": art, 'comment': reversed(comment), "news": news()})
+                          context={'Nick': h, "ROOT": g, "Article": art, 'comment': reversed(comment), "news": news(), "null": null})
 
     def post(self, request, **kwargs):
         h = CheckCOOKIE(request)

@@ -5,7 +5,7 @@ from .models import *
 class ArticleForm(forms.Form):
     Title = forms.CharField(max_length=70)
     Text = forms.CharField(widget=forms.Textarea)
-    tags = forms.CharField(max_length=255)
+    tags = forms.CharField(max_length=255, required=False)
     Theme = forms.CharField(max_length=3)
 
     def save(self, Auther, ClearTags):
