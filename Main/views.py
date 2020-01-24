@@ -35,7 +35,7 @@ class article_detail(View):
             art = get_object_or_404(Article, id__iexact=kwargs['id'])
             comment = Commet.objects.all()
             self.temp += '.html'
-            if art.tags.all()[0].name == "":
+            if art.tags.all()[0].name == "" and len(art.tags.all()) == 1:
                 null = True
             return render(request, self.temp,
                           context={'Nick': h, "ROOT": g, "Article": art, 'comment': reversed(comment), "news": news(), "null": null})

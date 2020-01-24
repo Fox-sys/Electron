@@ -1,5 +1,6 @@
 from django import forms
 from .models import *
+from hashlib import sha256
 
 
 class ArticleForm(forms.Form):
@@ -24,9 +25,10 @@ class UserForm(forms.Form):
     Email = forms.EmailField()
 
     def save(self):
+        p = self.cleaned_data['Password'].encode("utf-8")
         new_user = user.objects.create(Nickname_us=self.cleaned_data['UserNick'],
                                        email_us=self.cleaned_data['Email'],
-                                       password_us=self.cleaned_data['Password'])
+                                       password_us=sha256(p).hexdigest())
         return new_user
 
 
@@ -37,7 +39,8 @@ class AutoForm(forms.Form):
     def AutoFormCH(self):
         for i in user.objects.all():
             if i.Nickname_us == self.cleaned_data['UserNick']:
-                if i.password_us == self.cleaned_data['Password']:
+                p = self.cleaned_data['Password'].encode('utf-8')
+                if i.password_us == sha256(p).hexdigest():
                     return True
                 else:
                     continue
