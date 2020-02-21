@@ -1,6 +1,12 @@
 from django.db import models
 import datetime
 
+lessonTypes = (
+    ("starts", "Основы"),
+    ("radio", "Радо Элементы"),
+    ("deleted", "Удалённые")
+)
+
 
 class user(models.Model):
     Nickname_us = models.CharField("Ник", max_length=70, unique=True)
@@ -49,7 +55,7 @@ class exLesson(models.Model):
     num = models.IntegerField("Номер урока в своей группе")
     Title = models.CharField("Название", max_length=100)
     link = models.CharField("название html файла", max_length=30)
-    Type = models.CharField("тип урока", max_length=30)
+    Type = models.CharField("тип урока", max_length=30, choices=lessonTypes, default="starts")
     Tag = models.ManyToManyField("Tag", "тэги", blank=True)
 
     def __str__(self):

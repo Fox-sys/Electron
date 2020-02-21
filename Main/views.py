@@ -20,7 +20,8 @@ messages = [
     "не все поля заполнены",
     "вы не автарезированны",
     "успешный выход",
-    "у вас нет доступа"
+    "у вас нет доступа",
+    "вы уже авторизированны"
 ]
 
 
@@ -75,10 +76,10 @@ class article_detail(View):
                 new_com = bound_form.save(h, art)
             else:
                 return render(request, "redirect.html",
-                              context={"url": ".", "message": messages[8], 'Nick': h, "ROOT": g})
+                              context={"url": "", "message": messages[8], 'Nick': h, "ROOT": g})
         elif l.banned >= 1:
             return render(request, "redirect.html",
-                          context={"url": "../", "message": messages[4], 'Nick': h, "ROOT": g})
+                          context={"url": "", "message": messages[4], 'Nick': h, "ROOT": g})
         return redirect("../forum/" + kwargs["id"])
 
 
@@ -121,7 +122,7 @@ class Forum(View):
                           context={'Art_list': reversed(rets), 'Nick': h, "ROOT": g, 'form': bound_form,
                                    "news": news()})
         else:
-            return render(request, "redirect.html", context={"url": ".", "message": messages[8], 'Nick': h, "ROOT": g})
+            return render(request, "redirect.html", context={"url": "", "message": messages[8], 'Nick': h, "ROOT": g})
 
 
 class CreateArticle(View):
@@ -185,7 +186,7 @@ class CreateArticle(View):
                     art.tags.add(p[0])
             return redirect('../forum/' + str(art.id))
         else:
-            return render(request, "redirect.html", context={"url": ".", "message": messages[8], 'Nick': h, "ROOT": g})
+            return render(request, "redirect.html", context={"url": "", "message": messages[8], 'Nick': h, "ROOT": g})
 
 
 class reg(View):
@@ -209,7 +210,7 @@ class reg(View):
                 if i.Nickname_us == request.POST['UserNick']:
                     User = user.objects.get(Nickname_us__iexact=request.POST['UserNick'])
                     return render(request, "redirect.html",
-                                  context={"url": ".", "message": messages[1], 'Nick': h, "ROOT": g})
+                                  context={"url": "", "message": messages[1], 'Nick': h, "ROOT": g})
                 else:
                     continue
 
@@ -222,7 +223,7 @@ class reg(View):
             response.set_cookie("ROOT", user.objects.get(Nickname_us__iexact=request.POST['UserNick']).root_us)
             return response
         else:
-            return render(request, "redirect.html", context={"url": ".", "message": messages[8], 'Nick': h, "ROOT": g})
+            return render(request, "redirect.html", context={"url": "", "message": messages[8], 'Nick': h, "ROOT": g})
 
 
 def exit_(request):
@@ -257,20 +258,22 @@ class Auto(View):
             bound_form = AutoForm(request.POST)
             if bound_form.is_valid() and bound_form.AutoFormCH() == True:
                 req = HttpResponse(
-                    render(request, "redirect.html", context={"url": ".", "message": messages[2], 'Nick': h, "ROOT": g})
+                    render(request, "redirect.html", context={"url": "../", "message": messages[7], 'Nick': h, "ROOT": g})
                 )
                 req.set_cookie("UserNick", request.POST["UserNick"])
                 req.set_cookie("ROOT", user.objects.get(Nickname_us__iexact=request.POST['UserNick']).root_us)
             elif not bound_form.is_valid():
                 req = HttpResponse(
                     render(request, "redirect.html",
-                           context={"url": ".", "message": messages[8], 'Nick': h, "ROOT": g})
+                           context={"url": "", "message": messages[8], 'Nick': h, "ROOT": g})
                 )
             else:
                 req = HttpResponse(
-                    render(request, "redirect.html", context={"url": ".", "message": messages[1], 'Nick': h, "ROOT": g})
+                    render(request, "redirect.html", context={"url": "", "message": messages[2], 'Nick': h, "ROOT": g})
                 )
             return req
+        else:
+            return render(request, "redirect.html", context={"url": "../", "message": messages[12], 'Nick': h, "ROOT": g})
 
 
 def delete_art(request, id):
@@ -393,44 +396,45 @@ class article_list(View):
             prom = []
             lessons = exLesson.objects.all()
             for i in lessons:
-                res = []
-                a = ""
-                for j in i.Title.lower():
-                    if j == " ":
-                        res.append(a)
-                        a = ""
-                    else:
-                        a += j
-                res.append(a)
-                for j in res:
-                    for k in tags:
-                        if j == k.lower():
-                            prom.append(i)
-                            res = []
-                            break
-                gg = i.Tag.all()
-                for j in gg:
-                    for k in tags:
-                        if j.name.lower() == k.lower():
-                            if len(prom) != 0:
-                                for q in prom:
-                                    print(k)
-                                    if q.Title == i.Title:
-                                        gg = []
-                                        break
-                                    else:
-                                        prom.append(i)
-                                        gg = []
-                                        break
-                            else:
+                if i.Type != "deleted":
+                    res = []
+                    a = ""
+                    for j in i.Title.lower():
+                        if j == " ":
+                            res.append(a)
+                            a = ""
+                        else:
+                            a += j
+                    res.append(a)
+                    for j in res:
+                        for k in tags:
+                            if j == k.lower():
                                 prom.append(i)
-                                gg = []
+                                res = []
                                 break
-            res = {}
-            res["sorted"] = sorted(prom)
-            return render(request, "First/lessons.html", context={"Nick": h, "ROOT": g, "news": news(), "lessons": res})
-        else:
-            return render(request, "redirect.html", context={"url": ".", "message": messages[8], 'Nick': h, "ROOT": g})
+                    gg = i.Tag.all()
+                    for j in gg:
+                        for k in tags:
+                            if j.name.lower() == k.lower():
+                                if len(prom) != 0:
+                                    for q in prom:
+                                        print(k)
+                                        if q.Title == i.Title:
+                                            gg = []
+                                            break
+                                        else:
+                                            prom.append(i)
+                                            gg = []
+                                            break
+                                else:
+                                    prom.append(i)
+                                    gg = []
+                                    break
+                res = {}
+                res["sorted"] = sorted(prom)
+                return render(request, "First/lessons.html", context={"Nick": h, "ROOT": g, "news": news(), "lessons": res})
+            else:
+                return render(request, "redirect.html", context={"url": "", "message": messages[8], 'Nick': h, "ROOT": g})
 
 
 def article_l_det(request, q):
@@ -439,7 +443,7 @@ def article_l_det(request, q):
         g = request.COOKIES['ROOT']
     else:
         g = 'False'
-    return render(request, "First/Lessons/" + q + ".html", context={"Nick": h, "ROOT": g, "news": news()})
+    return render(request, "First/Lessons/" + q + ".html", context={"Nick": h, "ROOT": g, "news": news(), "tags": tagRender})
 
 
 def New_detail(request, id):
