@@ -379,7 +379,7 @@ class article_list(View):
             for i in lessons:
                 res = []
                 a = ""
-                for j in i.Title:
+                for j in i.Title.lower():
                     if j == " ":
                         res.append(a)
                         a = ""
@@ -388,14 +388,14 @@ class article_list(View):
                 res.append(a)
                 for j in res:
                     for k in tags:
-                        if j == k:
+                        if j == k.lower():
                             prom.append(i)
                             res = []
                             break
                 gg = i.Tag.all()
                 for j in gg:
                     for k in tags:
-                        if j.name == k:
+                        if j.name.lower() == k.lower():
                             if len(prom) != 0:
                                 for q in prom:
                                     print(k)
