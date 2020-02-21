@@ -38,9 +38,11 @@ class article_detail(View):
             if art.tags.all()[0].name == "" and len(art.tags.all()) == 1:
                 null = True
             return render(request, self.temp,
-                          context={'Nick': h, "ROOT": g, "Article": art, 'comment': reversed(comment), "news": news(), "null": null})
+                          context={'Nick': h, "ROOT": g, "Article": art, 'comment': reversed(comment), "news": news(),
+                                   "null": null})
 
-    def post(self, request, **kwargs):
+    @staticmethod
+    def post(request, **kwargs):
         h = CheckCOOKIE(request)
         if 'ROOT' in request.COOKIES:
             g = request.COOKIES['ROOT']
@@ -60,7 +62,8 @@ class article_detail(View):
 
 
 class Forum(View):
-    def get(self, request):
+    @staticmethod
+    def get(request):
         h = CheckCOOKIE(request)
         if 'ROOT' in request.COOKIES:
             g = request.COOKIES['ROOT']
@@ -71,7 +74,8 @@ class Forum(View):
         return render(request, 'First/Forum.html',
                       context={'Art_list': reversed(All_Articles), 'Nick': h, "ROOT": g, 'form': form, "news": news()})
 
-    def post(self, request):
+    @staticmethod
+    def post(request):
         if 'ROOT' in request.COOKIES:
             g = request.COOKIES['ROOT']
         else:
@@ -98,7 +102,8 @@ class Forum(View):
 
 
 class CreateArticle(View):
-    def get(self, request, type):
+    @staticmethod
+    def get(request, type):
         h = CheckCOOKIE(request)
         if 'ROOT' in request.COOKIES:
             g = request.COOKIES['ROOT']
@@ -116,7 +121,8 @@ class CreateArticle(View):
         else:
             return redirect("../")
 
-    def post(self, request, type):
+    @staticmethod
+    def post(request, type):
         h = CheckCOOKIE(request)
         if 'ROOT' in request.COOKIES:
             g = request.COOKIES['ROOT']
@@ -152,13 +158,16 @@ class CreateArticle(View):
                     art.tags.add(p[0])
             return redirect('../forum' + '/' + str(art.id))
 
+
 class reg(View):
-    def get(self, request):
+    @staticmethod
+    def get(request):
         h = CheckCOOKIE(request)
         form = UserForm()
         return render(request, 'First/CreateUser.html', context={'Form': form, 'Nick': h, "news": news()})
 
-    def post(self, request):
+    @staticmethod
+    def post(request):
         h = CheckCOOKIE(request)
         if 'ROOT' in request.COOKIES:
             g = request.COOKIES['ROOT']
@@ -207,7 +216,8 @@ def exit_(request):
 
 
 class Auto(View):
-    def get(self, request):
+    @staticmethod
+    def get(request):
         h = CheckCOOKIE(request)
         if 'ROOT' in request.COOKIES:
             g = request.COOKIES['ROOT']
@@ -216,7 +226,8 @@ class Auto(View):
         form = AutoForm()
         return render(request, 'First/AutoUser.html', context={'Form': form, 'Nick': h, "ROOT": g, "news": news()})
 
-    def post(self, request):
+    @staticmethod
+    def post(request):
         h = CheckCOOKIE(request)
         if 'ROOT' in request.COOKIES:
             g = request.COOKIES['ROOT']
@@ -277,7 +288,8 @@ def delete_com(request, id):
 
 
 class Support(View):
-    def get(self, request):
+    @staticmethod
+    def get(request):
         h = CheckCOOKIE(request)
         if 'ROOT' in request.COOKIES:
             g = request.COOKIES['ROOT']
@@ -290,11 +302,13 @@ class Support(View):
         else:
             l = 0
         if l.banned < 3:
-            return render(request, 'First/support.html', context={'Form': form, 'Nick': h, "ROOT": g, "us": p, "news": news()})
+            return render(request, 'First/support.html',
+                          context={'Form': form, 'Nick': h, "ROOT": g, "us": p, "news": news()})
         else:
             return redirect("../")
 
-    def post(self, request):
+    @staticmethod
+    def post(request):
         h = CheckCOOKIE(request)
         if 'ROOT' in request.COOKIES:
             g = request.COOKIES['ROOT']
@@ -335,19 +349,70 @@ def tool(request, j):
     return render(request, "First/tools/" + j + ".html", context={"Nick": h, "ROOT": g, "news": news()})
 
 
-def article_list(request):
-    typeList = ["starts", "radio"]
-    prom = []
-    res = {}
-    h = CheckCOOKIE(request)
-    if 'ROOT' in request.COOKIES:
-        g = request.COOKIES['ROOT']
-    else:
-        g = 'False'
-    for i in typeList:
-        prom = exLesson.objects.filter(Type__iexact=i)
-        res[i] = sorted(prom)
-    return render(request, "First/lessons.html", context={"Nick": h, "ROOT": g, "news": news(), "lessons": res})
+class article_list(View):
+    @staticmethod
+    def get(request):
+        typeList = ["starts", "radio"]
+        res = {}
+        h = CheckCOOKIE(request)
+        if 'ROOT' in request.COOKIES:
+            g = request.COOKIES['ROOT']
+        else:
+            g = 'False'
+        for i in typeList:
+            prom = exLesson.objects.filter(Type__iexact=i)
+            res[i] = sorted(prom)
+        return render(request, "First/lessons.html", context={"Nick": h, "ROOT": g, "news": news(), "lessons": res})
+
+    @staticmethod
+    def post(request):
+        h = CheckCOOKIE(request)
+        if 'ROOT' in request.COOKIES:
+            g = request.COOKIES['ROOT']
+        else:
+            g = 'False'
+        bound_form = SearchLesson(request.POST)
+        if bound_form.is_valid():
+            tags = bound_form.result()
+            prom = []
+            lessons = exLesson.objects.all()
+            for i in lessons:
+                res = []
+                a = ""
+                for j in i.Title:
+                    if j == " ":
+                        res.append(a)
+                        a = ""
+                    else:
+                        a += j
+                res.append(a)
+                for j in res:
+                    for k in tags:
+                        if j == k:
+                            prom.append(i)
+                            res = []
+                            break
+                gg = i.Tag.all()
+                for j in gg:
+                    for k in tags:
+                        if j.name == k:
+                            if len(prom) != 0:
+                                for q in prom:
+                                    print(k)
+                                    if q.Title == i.Title:
+                                        gg = []
+                                        break
+                                    else:
+                                        prom.append(i)
+                                        gg = []
+                                        break
+                            else:
+                                prom.append(i)
+                                gg = []
+                                break
+            res = {}
+            res["sorted"] = sorted(prom)
+            return render(request, "First/lessons.html", context={"Nick": h, "ROOT": g, "news": news(), "lessons": res})
 
 
 def article_l_det(request, q):

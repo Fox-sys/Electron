@@ -74,13 +74,27 @@ class SearchForm(forms.Form):
         r.append(a)
         return r
 
+
 class Sup(forms.Form):
     Problem = forms.CharField()
     Text = forms.CharField(widget=forms.Textarea)
 
     def save(self, Auther):
-        a = []
-        a.append(Auther)
-        a.append(self.cleaned_data['Problem'])
-        a.append(self.cleaned_data['Text'])
+        a = [Auther, self.cleaned_data['Problem'], self.cleaned_data['Text']]
         return a
+
+
+class SearchLesson(forms.Form):
+    SearchLesson = forms.CharField(max_length=90)
+
+    def result(self):
+        r = []
+        a = ""
+        for i in self.cleaned_data['SearchLesson']:
+            if i == " ":
+                r.append(a)
+                a = ""
+            else:
+                a += i
+        r.append(a)
+        return r

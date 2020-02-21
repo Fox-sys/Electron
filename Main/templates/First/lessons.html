@@ -18,6 +18,11 @@
         {% endfor %}
     </div>
     <div class="container generic">
+        <form action="" method="post">
+            {% csrf_token %}
+            <input type="text" name="SearchLesson">
+            <button>Submit</button>
+        </form>
             {% for key, i in lessons.items %}
                 {% if key == "starts" %}
                     <h1 class="item generic-title">Основы</h1>
@@ -30,6 +35,15 @@
                     </ul>
                 {% elif key == "radio" %}
                     <h1 class="item generic-title">Радиоэлементы</h1>
+                    <ul class="item article-list">
+                        {% for j in i %}
+                            <li>
+                                <span class="date">{{j.num}} </span><a class="item generic-link" href="{% url 'art_det_url' j.link %}">{{j.Title}}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% elif key == "sorted" %}
+                    <h1 class="item generic-title">Результаты поиска</h1>
                     <ul class="item article-list">
                         {% for j in i %}
                             <li>

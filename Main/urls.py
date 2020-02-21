@@ -14,7 +14,7 @@ urlpatterns = [
     path("tools", tools.as_view(), name = 'tools_url'),
     path("subforum/<str:args>", subforum, name = 'subforum_url'),
     path("tool/<str:j>", tool, name = 'tool_url'),
-    path('Lessons', article_list, name= "art_list_url"),
+    path('Lessons', article_list.as_view(), name= "art_list_url"),
     path('Lesson/<str:q>', article_l_det, name= "art_det_url"),
     path('New/<str:id>', New_detail, name= "new_detail_url"),
 ]
