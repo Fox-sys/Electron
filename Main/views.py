@@ -8,6 +8,21 @@ from django.template import RequestContext
 from django.core.mail import send_mail
 import os
 
+messages = [
+    "успешная регистрация",
+    "аккаунт уже существует",
+    "не верный пароль",
+    "аккаунта не существует",
+    "ваш аккаунт имеет уровень блокировки 1 или более, вы не можите оставлять коментарии",
+    "ваш аккаунт имеет уровень блокировки 2 или более, вы не можите писать трэды",
+    "ваш аккаунт имеет уровень блокировки 3, вы не можите писать в тэхническую поддержку",
+    "успешный вход",
+    "не все поля заполнены",
+    "вы не автарезированны",
+    "успешный выход",
+    "у вас нет доступа"
+]
+
 
 class tools(TipRender, View):
     temp = "First/tools"
@@ -58,6 +73,12 @@ class article_detail(View):
             bound_form = CommentForm(request.POST)
             if bound_form.is_valid():
                 new_com = bound_form.save(h, art)
+            else:
+                return render(request, "redirect.html",
+                              context={"url": ".", "message": messages[8], 'Nick': h, "ROOT": g})
+        elif l.banned >= 1:
+            return render(request, "redirect.html",
+                          context={"url": "../", "message": messages[4], 'Nick': h, "ROOT": g})
         return redirect("../forum/" + kwargs["id"])
 
 
@@ -99,6 +120,8 @@ class Forum(View):
             return render(request, 'First/Forum.html',
                           context={'Art_list': reversed(rets), 'Nick': h, "ROOT": g, 'form': bound_form,
                                    "news": news()})
+        else:
+            return render(request, "redirect.html", context={"url": ".", "message": messages[8], 'Nick': h, "ROOT": g})
 
 
 class CreateArticle(View):
@@ -118,8 +141,12 @@ class CreateArticle(View):
             form = ArticleForm()
             return render(request, 'First/create_article.html',
                           context={'Form': form, 'Nick': h, "ROOT": g, "news": news(), 'type': type})
+        elif l.banned >= 2:
+            return render(request, "redirect.html",
+                          context={"url": "../", "message": messages[5], 'Nick': h, "ROOT": g})
         else:
-            return redirect("../")
+            return render(request, "redirect.html",
+                          context={"url": "../", "message": messages[9], 'Nick': h, "ROOT": g})
 
     @staticmethod
     def post(request, type):
@@ -156,7 +183,9 @@ class CreateArticle(View):
                     art.tags.add(g)
                 else:
                     art.tags.add(p[0])
-            return redirect('../forum' + '/' + str(art.id))
+            return redirect('../forum/' + str(art.id))
+        else:
+            return render(request, "redirect.html", context={"url": ".", "message": messages[8], 'Nick': h, "ROOT": g})
 
 
 class reg(View):
@@ -179,36 +208,27 @@ class reg(View):
             for i in n:
                 if i.Nickname_us == request.POST['UserNick']:
                     User = user.objects.get(Nickname_us__iexact=request.POST['UserNick'])
-                    return render(request, 'First/UserAlReadyExists.html',
-                                  context={'art': request.POST['UserNick'], 'Nick': h, "ROOT": g, "news": news()})
+                    return render(request, "redirect.html",
+                                  context={"url": ".", "message": messages[1], 'Nick': h, "ROOT": g})
                 else:
                     continue
 
             new_user = bound_form.save()
             User = user.objects.get(Nickname_us__iexact=request.POST['UserNick'])
             response = HttpResponse(
-                """
-                       <script type="text/javascript">
-                           location.replace("../");
-                       </script>
-                       <p>Такого аккаунта не существует</p><a href='../'>"<a href='../'>Кликните по ссылке что бы вернутся на главную</a></a>
-                       """
+                render(request, "redirect.html", context={"url": "../", "message": messages[0], 'Nick': h, "ROOT": g})
             )
             response.set_cookie("UserNick", request.POST["UserNick"])
             response.set_cookie("ROOT", user.objects.get(Nickname_us__iexact=request.POST['UserNick']).root_us)
             return response
+        else:
+            return render(request, "redirect.html", context={"url": ".", "message": messages[8], 'Nick': h, "ROOT": g})
 
 
 def exit_(request):
     h = CheckCOOKIE(request)
     req = HttpResponse(
-        """
-                       <script type="text/javascript">
-                           location.replace("../");
-                       </script>
-                       <p>Такого аккаунта не существует</p><a href='../'>"<a href='../'>Кликните по ссылке что бы вернутся на главную</a></a>
-                       """
-
+        render(request, "redirect.html", context={"url": "../", "message": messages[10], 'Nick': h})
     )
     req.set_cookie("UserNick", "")
     req.set_cookie("ROOT", False)
@@ -237,23 +257,18 @@ class Auto(View):
             bound_form = AutoForm(request.POST)
             if bound_form.is_valid() and bound_form.AutoFormCH() == True:
                 req = HttpResponse(
-                    """
-                           <script type="text/javascript">
-                               location.replace("../");
-                           </script>
-                           <p>Такого аккаунта не существует</p><a href='../'>"<a href='../'>Кликните по ссылке что бы вернутся на главную</a></a>
-                           """
+                    render(request, "redirect.html", context={"url": ".", "message": messages[2], 'Nick': h, "ROOT": g})
                 )
                 req.set_cookie("UserNick", request.POST["UserNick"])
                 req.set_cookie("ROOT", user.objects.get(Nickname_us__iexact=request.POST['UserNick']).root_us)
+            elif not bound_form.is_valid():
+                req = HttpResponse(
+                    render(request, "redirect.html",
+                           context={"url": ".", "message": messages[8], 'Nick': h, "ROOT": g})
+                )
             else:
                 req = HttpResponse(
-                    """
-                    <script type="text/javascript">
-                        location.replace("../login");
-                    </script>
-                    <p>Такого аккаунта не существует</p><a href='../login'>Кликните по ссылке что бы повторить авторизацию</a>
-                    """
+                    render(request, "redirect.html", context={"url": ".", "message": messages[1], 'Nick': h, "ROOT": g})
                 )
             return req
 
@@ -267,9 +282,9 @@ def delete_art(request, id):
         g = 'False'
     if n.author_art == h or g == 'True':
         Article.objects.filter(id=id).delete()
-        return redirect("../../../forum")
+        return redirect("../../forum/")
     else:
-        return render(request, "First/NotYour.html", context={"Nick": h, "ROOT": g, "article": n, "news": news()})
+        return render(request, "redirect.html", context={"url": "../../forum/", "message": messages[11], 'Nick': h, "ROOT": g})
 
 
 def delete_com(request, id):
@@ -282,9 +297,10 @@ def delete_com(request, id):
     j = n.article_com.id
     if n.author_com == h or g == 'True':
         Commet.objects.filter(id=id).delete()
-        return redirect("../../../forum/" + str(j))
+        return redirect("../../forum/" + str(j))
     else:
-        return render(request, "First/NotYour.html", context={"Nick": h, "ROOT": g, "comment": n, "news": news()})
+        return render(request, "redirect.html", context={"url": "../../forum/" + str(j), "message": messages[11],
+                                                         'Nick': h, "ROOT": g})
 
 
 class Support(View):
@@ -305,7 +321,7 @@ class Support(View):
             return render(request, 'First/support.html',
                           context={'Form': form, 'Nick': h, "ROOT": g, "us": p, "news": news()})
         else:
-            return redirect("../")
+            return render(request, "redirect.html", context={"url": "../", "message": messages[6], 'Nick': h, "ROOT": g})
 
     @staticmethod
     def post(request):
@@ -413,6 +429,8 @@ class article_list(View):
             res = {}
             res["sorted"] = sorted(prom)
             return render(request, "First/lessons.html", context={"Nick": h, "ROOT": g, "news": news(), "lessons": res})
+        else:
+            return render(request, "redirect.html", context={"url": ".", "message": messages[8], 'Nick': h, "ROOT": g})
 
 
 def article_l_det(request, q):
