@@ -16,10 +16,14 @@
             <h3 class="item comment-author">{{Article.author_art}}
             </h3>
             <li class="container thread">
-                <p class="item comment-text"> {{Article.text_art}}
-                </p>
+                <p class="item comment-text"> {{Article.text_art}}</p><br>
             </li>
-            <h3 class="item comment-author">Тэги: {% if not null %}{% for i in Article.tags.all %}{{ i.name }} {% endfor %}{% else %}-{% endif %}</h3>
+            <h3 class="item comment-author">
+                {% for i in images %}
+                    <a href="{{ i }}"><img src="{{ i }}" width="250"></a>
+                {% endfor %}
+            </h3>
+            <li class="container thread">Тэги: {% if not null %}{% for i in Article.tags.all %}{{ i.name }} {% endfor %}{% else %}-{% endif %}</li>
             {% if Nick != "" %}
             <li class="container thread">
                 <form method="post" class="container row-flex">

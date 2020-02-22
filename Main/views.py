@@ -53,9 +53,18 @@ class article_detail(View):
             self.temp += '.html'
             if art.tags.all()[0].name == "" and len(art.tags.all()) == 1:
                 null = True
+            imagesNoneCheck = [art.img1, art.img2, art.img3, art.img4, art.img5, art.img6, art.img7, art.img8, art.img9,
+                      art.img10]
+            images = []
+            for i in range(len(imagesNoneCheck)):
+                if imagesNoneCheck[i] == "":
+                    pass
+                else:
+                    images.append("/media/" + str(imagesNoneCheck[i]))
+            print(images[0])
             return render(request, self.temp,
                           context={'Nick': h, "ROOT": g, "Article": art, 'comment': reversed(comment), "news": news(),
-                                   "null": null})
+                                   "null": null, "images": images})
 
     @staticmethod
     def post(request, **kwargs):
@@ -443,7 +452,7 @@ def article_l_det(request, q):
         g = request.COOKIES['ROOT']
     else:
         g = 'False'
-    return render(request, "First/Lessons/" + q + ".html", context={"Nick": h, "ROOT": g, "news": news(), "tags": tagRender})
+    return render(request, "First/Lessons/" + q + ".html", context={"Nick": h, "ROOT": g, "news": news()})
 
 
 def New_detail(request, id):

@@ -26,6 +26,16 @@ class Article(models.Model):
     sellf = models.CharField("curs", max_length=3)
     pub_date_art = models.DateTimeField(default=datetime.datetime.now())
     tags = models.ManyToManyField('Tag', blank=True, related_name="posts")
+    img1 = models.ImageField("картинка 1", upload_to="images/users/posts", blank=True)
+    img2 = models.ImageField("картинка 2", upload_to="images/users/posts", blank=True)
+    img3 = models.ImageField("картинка 3", upload_to="images/users/posts", blank=True)
+    img4 = models.ImageField("картинка 4", upload_to="images/users/posts", blank=True)
+    img5 = models.ImageField("картинка 5", upload_to="images/users/posts", blank=True)
+    img6 = models.ImageField("картинка 6", upload_to="images/users/posts", blank=True)
+    img7 = models.ImageField("картинка 7", upload_to="images/users/posts", blank=True)
+    img8 = models.ImageField("картинка 8", upload_to="images/users/posts", blank=True)
+    img9 = models.ImageField("картинка 9", upload_to="images/users/posts", blank=True)
+    img10 = models.ImageField("картинка 10", upload_to="images/users/posts", blank=True)
 
     def __str__(self):
         return '{} {} {}'.format(self.id, self.name_art, self.sellf)
