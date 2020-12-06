@@ -11,19 +11,19 @@
 {% block content %}
 <div class="container main-container">
     <div class="container generic">
-        <h3 class="item sub-forum-title">{{Article.name_art}}</h3>
+        <h3 class="item sub-forum-title">{{Post.name_art}}</h3>
         <ol class="container thread-list">
-            <h3 class="item comment-author">{{Article.author_art}}
+            <h3 class="item comment-author">{{Post.author_art}}
             </h3>
             <li class="container thread">
-                <p class="item comment-text"> {{Article.text_art}}</p><br>
+                <p class="item comment-text"> {{Post.text_art}}</p><br>
             </li>
             <h3 class="item comment-author">
                 {% for i in images %}
                     <a href="{{ i }}"><img src="{{ i }}" width="250"></a>
                 {% endfor %}
             </h3>
-            <li class="container thread">Тэги: {% if not null %}{% for i in Article.tags.all %}{{ i.name }} {% endfor %}{% else %}-{% endif %}</li>
+            <li class="container thread">Тэги: {% if not null %}{% for i in Post.tags.all %}{{ i.name }} {% endfor %}{% else %}-{% endif %}</li>
             {% if Nick != "" %}
             <li class="container thread">
                 <form method="post" class="container row-flex">
@@ -34,7 +34,7 @@
             </li>
             {% endif %}
             {% for i in comment %}
-                {% if i.article_com.name_art == Article.name_art %}
+                {% if i.Post_com.name_art == Post.name_art %}
             <br><h3 class="item comment-author">{{i.author_com}}
             </h3>
             <li class="container thread">

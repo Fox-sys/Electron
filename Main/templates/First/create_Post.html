@@ -1,0 +1,32 @@
+{% extends "First/Base_blok.html"%}
+{% load static %}
+{% block title %}
+    Forum
+{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/article.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container main-container">
+    <div class="container generic">
+        <h1 class="item generic-title-big centered">Новый тред</h1>
+        <form method="post" class="container" style="align-items: center">
+            {% csrf_token %}
+            <input name="Title" class="item" type="text" placeholder="Название треда" style="width: 500px">
+            <textarea name = "Text" class="item" placeholder="Текст треда" style="width: 800px;height: 500px"></textarea>
+            <input name="tags" class="item" type="text" placeholder="Тэги" style="width: 500px">
+            <select name="Theme" id="">
+                <option {% if type == "ElS" %}selected{% endif %} value="ElS">Свои проекты (Электроника)</option>
+                <option {% if type == "ElT" %}selected{% endif %} value="ElT">Теория (Электроника)</option>
+                <option {% if type == "ElH" %}selected{% endif %} value="ElH">Требуется помощь (Электроника)</option>
+                <option {% if type == "MS" %}selected{% endif %} value="MS">Свои проекты (Микроконтроллеры)</option>
+                <option {% if type == "MT" %}selected{% endif %} value="MT">Идеи (Микроконтроллеры)</option>
+                <option {% if type == "MH" %}selected{% endif %} value="MH">Требуется помощь (Микроконтроллеры)</option>
+            </select>
+            <input class="item" type="submit" value="Создать">
+        </form>
+    </div>
+</div>
+{% endblock %}

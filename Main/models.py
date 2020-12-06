@@ -9,9 +9,10 @@ lessonTypes = (
 
 
 class user(models.Model):
+    """User model"""
     Nickname_us = models.CharField("Ник", max_length=70, unique=True)
     email_us = models.EmailField("Почта", unique=True)
-    password_us = models.CharField("Пароль", max_length=100)
+    password_us = models.CharField("Пароль", max_length=100, editable=True)
     root_us = models.BooleanField("Админ", default=False)
     banned = models.IntegerField("Уровень бана", default=0)
 
@@ -19,7 +20,7 @@ class user(models.Model):
         return '{} {}'.format(self.id, self.Nickname_us)
 
 
-class Article(models.Model):
+class Post(models.Model):
     author_art = models.CharField("автор", max_length=70)
     name_art = models.CharField("название", max_length=100)
     text_art = models.TextField()
@@ -42,13 +43,13 @@ class Article(models.Model):
 
 
 class Commet(models.Model):
-    article_com = models.ForeignKey(Article, on_delete=models.CASCADE)
+    Post_com = models.ForeignKey(Post, on_delete=models.CASCADE)
     author_com = models.CharField("автор", max_length=70)
     text_com = models.TextField()
     pub_date_com = models.DateTimeField(default=datetime.datetime.now())
 
     def __str__(self):
-        return '{} {}'.format(self.id, self.article_com.name_art)
+        return '{} {}'.format(self.id, self.Post_com.name_art)
 
 
 class News(models.Model):
